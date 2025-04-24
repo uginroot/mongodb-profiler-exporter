@@ -130,6 +130,8 @@ def main():
     slow_queries_info_last_cleared = datetime.now(ZoneInfo("UTC"))
     slow_queries_info_last_clear_interval=300 # seconds
 
+    end_time = datetime.now(ZoneInfo("UTC"))
+    start_time = end_time - timedelta(seconds=args.wait_interval)
     while True:
         loop_start = time.time()
         try:
@@ -141,7 +143,7 @@ def main():
 
             # Calculate the time window
             end_time = datetime.now(ZoneInfo("UTC"))
-            start_time = end_time - timedelta(seconds=args.wait_interval)
+            start_time = end_time - (end_time - start_time)
 
             # Get the list of databases
             databases = mongo_client.list_database_names()
